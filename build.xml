@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- DO NOT USE - SEE README.txt -->
+
+<project basedir="." default="jar" name="touchstone">
+
+  <target name="init" depends="">
+    <property name="build.dir" location="build" />
+    <property name="lib.dir" location="lib" />
+    <property name="jar.name" value="wikiindexer.jar" />
+
+    <property name="build.compiler" value="modern" />
+
+    <property name="test.src.dir" location="src/test" />
+    <property name="test.dir" location="${build.dir}/test" />
+    <property name="test.classes.dir" location="${test.dir}/classes" />
+    <property name="test.data.dir" location="${test.dir}/data" />
+    <property name="test.reports.dir" location="${test.dir}/reports" />
+
+    <property name="dist.dir" location="dist" />
+    <property name="doc.dir" location="doc" />
+
+    <path id="compile.classpath">
+      <fileset dir="${lib.dir}">
+        <include name="*.jar" />
+      </fileset>
+    </path>
+
+    <path id="test.classpath">
+      <path refid="compile.classpath" />
+      <pathelement path="${test.classes.dir}" />
+    </path>
+
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="${build.dir}" includeEmptyDirs="true" />
+  </target>
+
+  <target name="prep" depends="init">
+    <mkdir dir="${test.classes.dir}" />
+  </target>
+
+
+  <target name="compile-tests" depends="prep">
+    <javac source="1.5" debug="true" deprecation="true" destdir="${test.classes.dir}">
+      <src path="${test.src.dir}" />
+      <classpath refid="test.classpath" />
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile-tests" description="Creates a jar file">
+    <jar jarfile="${build.dir}/${jar.name}">
+      <fileset dir="${test.classes.dir}" includes="**/*.class" />
+      <manifest>
+        <attribute name="Main-Class" value="com.lucid.touchstone.Main" />
+      </manifest>
+    </jar>
+  </target>
+
+
+</project>
