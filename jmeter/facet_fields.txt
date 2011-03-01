@@ -1,0 +1,4 @@
+author
+data_source_name
+keywords
+type
