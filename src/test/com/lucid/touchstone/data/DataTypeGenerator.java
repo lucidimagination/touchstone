@@ -1,4 +1,4 @@
-package com.lucid.touchstone;
+package com.lucid.touchstone.data;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.lucid.touchstone;
+package com.lucid.touchstone.data;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -17,25 +17,12 @@ package com.lucid.touchstone;
  * limitations under the License.
  */
 
-public class DocData {
-
-  String name;
-  String body;
-  String title;
-  String date;
-  String phone;
-  String email;
-  String id;
-
-  public DocData() {
-    
-  }
-
-  public DocData(String id, String body, String title, String date) {
-    this.id = id;
-    this.body = body;
-    this.title = title;
-    this.date = date;
-  }
+/**
+ * Exception indicating there is no more data. Thrown by DocsMakers if
+ * doc.maker.forever is false and docs sources of that maker where exhausted.
+ * This is useful for iterating all document of a source, in case we don't know
+ * in advance how many docs there are.
+ */
+public class NoMoreDataException extends Exception {
 
 }

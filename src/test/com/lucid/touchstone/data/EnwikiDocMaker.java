@@ -1,4 +1,4 @@
-package com.lucid.touchstone;
+package com.lucid.touchstone.data;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more

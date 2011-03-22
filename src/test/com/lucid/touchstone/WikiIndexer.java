@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.StreamingUpdateSolrServer;
 
 public class WikiIndexer {
   
@@ -15,12 +16,14 @@ public class WikiIndexer {
     // CoreContainer coreContainer = initializer.initialize();
     
     // EmbeddedSolrServer server = new EmbeddedSolrServer(coreContainer, "");
-    CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
-  
+    StreamingUpdateSolrServer server = new StreamingUpdateSolrServer(url, 1000, 3);
+    //CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
+    System.out.println("SolrServer Impl:" + server.getClass().getName());
     System.out.println("Using " + numThreads + " threads");
     SolrDataPusher solrdp = new SolrDataPusher(server, numThreads);
     
     solrdp.generateDocs(wikiFile, numDocs);
+    
     long end = System.nanoTime();
     float time = (end - start) / 1000000000.0f;
     float timeInAddDoc = solrdp.getTotalIndexTime() / 1000000000.0f;

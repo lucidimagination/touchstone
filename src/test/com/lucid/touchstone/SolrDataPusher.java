@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.solr.client.solrj.SolrServer;
@@ -16,10 +17,15 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 
-import com.lucid.touchstone.LineDocMaker.StreamProvider;
+import com.lucid.touchstone.data.DataTypeGenerator;
+import com.lucid.touchstone.data.DocData;
+import com.lucid.touchstone.data.DocMaker;
+import com.lucid.touchstone.data.EnwikiDocMaker;
+import com.lucid.touchstone.data.NoMoreDataException;
+import com.lucid.touchstone.data.LineDocMaker.StreamProvider;
 
 public class SolrDataPusher {
-  private volatile int numAdded;
+  private AtomicInteger numAdded = new AtomicInteger();
 
   private SolrServer server;
 
@@ -80,7 +86,7 @@ public class SolrDataPusher {
               UpdateResponse resp = server.add(solrDoc);
               long end = System.nanoTime();
               totalTime.addAndGet(end - start);
-              numAdded++;
+              numAdded.incrementAndGet();
             } catch (NoMoreDataException e) {
               System.out.println("no more data" + " "
                   + Thread.currentThread().getId());
