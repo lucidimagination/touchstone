@@ -15,7 +15,7 @@ public class Main {
 
     int numThreads = Runtime.getRuntime().availableProcessors() - 1;
     if (args.length > 3) {
-      numThreads = Integer.parseInt(args[3]);;
+      numThreads = Integer.parseInt(args[3]);
     }
     
     WikiIndexer wi = new WikiIndexer();

@@ -16,8 +16,8 @@ public class WikiIndexer {
     // CoreContainer coreContainer = initializer.initialize();
     
     // EmbeddedSolrServer server = new EmbeddedSolrServer(coreContainer, "");
-    StreamingUpdateSolrServer server = new StreamingUpdateSolrServer(url, 1000, 3);
-    //CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
+    //StreamingUpdateSolrServer server = new StreamingUpdateSolrServer(url, 1000, 3);
+    CommonsHttpSolrServer server = new CommonsHttpSolrServer(url);
     System.out.println("SolrServer Impl:" + server.getClass().getName());
     System.out.println("Using " + numThreads + " threads");
     SolrDataPusher solrdp = new SolrDataPusher(server, numThreads);

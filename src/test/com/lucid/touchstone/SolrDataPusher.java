@@ -1,5 +1,6 @@
 package com.lucid.touchstone;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,13 +38,13 @@ public class SolrDataPusher {
 
   private AtomicLong totalTime = new AtomicLong(0);
 
-  private DataTypeGenerator datagen = new DataTypeGenerator(new String[] {
-      "test", "horse", "man" });
+  private DataTypeGenerator datagen;
 
-  public SolrDataPusher(SolrServer server, final int numThreads) {
+  public SolrDataPusher(SolrServer server, final int numThreads) throws FileNotFoundException {
     this.server = server;
     pool = Executors.newFixedThreadPool(numThreads);
     this.numThreads = numThreads;
+    datagen = new DataTypeGenerator(new File("words.txt"));
   }
 
   public void generateDocs(final String sourceFile, final int numDocs)
@@ -81,7 +82,7 @@ public class SolrDataPusher {
               solrDoc.addField("name", doc.name);
               solrDoc.addField("phone", doc.phone);
               solrDoc.addField("title", doc.title);
-              solrDoc.addField("body", doc.body);
+              solrDoc.addField("text", doc.body);
               long start = System.nanoTime();
               UpdateResponse resp = server.add(solrDoc);
               long end = System.nanoTime();
